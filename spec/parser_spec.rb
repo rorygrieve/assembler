@@ -11,5 +11,10 @@ RSpec.describe Parser do
 
       expect(IO).to have_received(:readlines).with(asm_file)
     end
+
+    it "stips out lines starting with comments" do
+      expect(parser.call("spec/fixtures/the_one_with_comments.asm"))
+        .to eq(["@2\n"])
+    end
   end
 end
