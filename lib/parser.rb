@@ -6,6 +6,7 @@ class Parser
       .reject { |line| strip_out_lines_starting_with_comments(line) }
       .map { |line| strip_out_inline_comments(line) }
       .reject { |line| strip_out_blank_lines(line) }
+      .map { |line| strip_out_inline_space(line) }
   end
 
   private
@@ -26,5 +27,9 @@ class Parser
 
   def strip_out_blank_lines(line)
     line == "\n"
+  end
+
+  def strip_out_inline_space(line)
+    line.gsub(/[[:space:]]/,'')
   end
 end

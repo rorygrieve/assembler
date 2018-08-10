@@ -14,17 +14,22 @@ RSpec.describe Parser do
 
     it "stips out lines starting with comments" do
       expect(parser.call("spec/fixtures/the_one_with_comments.asm"))
-        .to eq(["@2\n"])
+        .to eq(["@2"])
     end
 
     it "strips out text after comments" do
       expect(parser.call("spec/fixtures/the_one_with_inline_comments.asm"))
-        .to eq(["@2\n", "@3 ", "@4\n", "@5 "])
+        .to eq(["@2", "@3", "@4", "@5"])
     end
 
     it "strips out blank lines" do
       expect(parser.call("spec/fixtures/the_one_with_blank_lines.asm"))
-        .to eq(["@2\n", "@3\n"])
+        .to eq(["@2", "@3"])
+    end
+
+    it "strips out inline space" do
+      expect(parser.call("spec/fixtures/the_one_with_inline_space.asm"))
+        .to eq(["@2"])
     end
   end
 end
