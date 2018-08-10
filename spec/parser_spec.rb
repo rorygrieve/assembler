@@ -21,5 +21,10 @@ RSpec.describe Parser do
       expect(parser.call("spec/fixtures/the_one_with_inline_comments.asm"))
         .to eq(["@2\n", "@3 ", "@4\n", "@5 "])
     end
+
+    it "strips out blank lines" do
+      expect(parser.call("spec/fixtures/the_one_with_blank_lines.asm"))
+        .to eq(["@2\n", "@3\n"])
+    end
   end
 end

@@ -5,6 +5,7 @@ class Parser
     lines
       .reject { |line| strip_out_lines_starting_with_comments(line) }
       .map { |line| strip_out_inline_comments(line) }
+      .reject { |line| strip_out_blank_lines(line) }
   end
 
   private
@@ -21,5 +22,9 @@ class Parser
 
     line[comment_index..-1] = ""
     line
+  end
+
+  def strip_out_blank_lines(line)
+    line == "\n"
   end
 end
