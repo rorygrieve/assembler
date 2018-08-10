@@ -16,5 +16,10 @@ RSpec.describe Parser do
       expect(parser.call("spec/fixtures/the_one_with_comments.asm"))
         .to eq(["@2\n"])
     end
+
+    it "strips out text after comments" do
+      expect(parser.call("spec/fixtures/the_one_with_inline_comments.asm"))
+        .to eq(["@2\n", "@3 ", "@4\n", "@5 "])
+    end
   end
 end
