@@ -22,14 +22,14 @@ RSpec.describe Parser do
         .to eq(["@2", "@3", "@4", "@5"])
     end
 
-    it "strips out blank lines" do
-      expect(parser.call("spec/fixtures/the_one_with_blank_lines.asm"))
-        .to eq(["@2", "@3"])
-    end
-
     it "strips out inline space" do
       expect(parser.call("spec/fixtures/the_one_with_inline_space.asm"))
         .to eq(["@2"])
+    end
+
+    it "strips out blank lines" do
+      expect(parser.call("spec/fixtures/the_one_with_blank_lines.asm"))
+        .to eq(["@2", "@3"])
     end
   end
 end
