@@ -10,5 +10,11 @@ RSpec.describe "Translate files" do
 
       expect(IO.read("lib/output/Add.hack")).to eq(IO.read("spec/fixtures/Add.hack"))
     end
+
+    after do
+      Dir["lib/output/*"].each do |file|
+        File.delete(file)
+      end
+    end
   end
 end
