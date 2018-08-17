@@ -4,10 +4,11 @@ class Main
     @translator = translator
   end
 
-  attr_reader :parser
-  private :parser
+  attr_reader :parser, :translator
+  private :parser, :translator
 
   def call(file)
-    parser.call(file)
+    parsed_code = parser.call(file)
+    translator.call(parsed_code)
   end
 end
