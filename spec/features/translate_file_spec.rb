@@ -1,3 +1,7 @@
+require "main"
+require "parser"
+require "translator"
+
 RSpec.describe "Translate files" do
   context "a file without symbols is loaded", wip: true  do
     it "is translated into machine code" do
