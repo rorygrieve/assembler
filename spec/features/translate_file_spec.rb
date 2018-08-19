@@ -14,7 +14,7 @@ RSpec.describe "Translate files" do
     end
 
     context "with jump commands" do
-      it "is translated into machine code", wip: true do
+      it "is translated into machine code" do
         main = Main.new(parser: Parser.new, translator: Translator.new)
         main.call("spec/fixtures/MaxL.asm")
 

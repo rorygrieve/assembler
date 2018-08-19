@@ -19,10 +19,17 @@ class Translator
   end
 
   def convert_c_instruction_to_binary(line)
-    parts = line.split("=")
-    comp = look_up_comp(parts[1])
-    dest = look_up_dest(parts[0])
-    jump = "000"
+    if line.include?("=")
+      parts = line.split("=")
+      comp = look_up_comp(parts[1])
+      dest = look_up_dest(parts[0])
+      jump = "000"
+    else
+      parts = line.split(";")
+      comp = look_up_comp(parts[0])
+      dest = "000"
+      jump = look_up_jump(parts[1])
+    end
 
     build_c_instruction(comp: comp, dest: dest, jump: jump)
   end
@@ -37,6 +44,10 @@ class Translator
 
   def look_up_dest(dest)
     DEST.fetch(dest)
+  end
+
+  def look_up_jump(jump)
+    JUMP.fetch(jump)
   end
 
   COMPS = {
@@ -78,5 +89,15 @@ class Translator
     "AM" => "101",
     "AD" => "110",
     "AMD" => "111",
+  }
+
+  JUMP = {
+    "JGT" => "001",
+    "JEQ" => "010",
+    "JGE" => "011",
+    "JLT" => "100",
+    "JNE" => "101",
+    "JLE" => "110",
+    "JMP" => "111",
   }
 end
