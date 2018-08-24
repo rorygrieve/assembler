@@ -46,4 +46,39 @@ RSpec.describe "Translate files" do
       end
     end
   end
+
+  context "a file with symbols is loaded"  do
+    context "it is a simple program" do
+      it "is translated into machine code" do
+        main = Main.new(parser: Parser.new, translator: Translator.new)
+        main.call("spec/fixtures/Max.asm")
+
+        expect(IO.read("lib/output/Max.hack")).to eq(IO.read("spec/fixtures/Max.hack"))
+      end
+    end
+
+    context "draws on screen" do
+      it "is translated into machine code" do
+        main = Main.new(parser: Parser.new, translator: Translator.new)
+        main.call("spec/fixtures/Rect.asm")
+
+        expect(IO.read("lib/output/Rect.hack")).to eq(IO.read("spec/fixtures/Rect.hack"))
+      end
+    end
+
+    context "it is a more complex program" do
+      it "is translated into machine code" do
+        main = Main.new(parser: Parser.new, translator: Translator.new)
+        main.call("spec/fixtures/Pong.asm")
+
+        expect(IO.read("lib/output/Pong.hack")).to eq(IO.read("spec/fixtures/Pong.hack"))
+      end
+    end
+
+    after do
+      Dir["lib/output/*"].each do |file|
+        File.delete(file)
+      end
+    end
+  end
 end
