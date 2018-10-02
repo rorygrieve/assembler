@@ -1,14 +1,17 @@
 class Main
-  def initialize(parser:, translator:)
+  def initialize(parser:, symbol_adder:, translator:)
     @parser = parser
+    @symbol_adder = symbol_adder
     @translator = translator
   end
 
-  attr_reader :parser, :translator
-  private :parser, :translator
+  attr_reader :parser, :translator, :symbol_adder
+  private :parser, :translator, :symbol_adder
 
   def call(file)
     parsed_code = parser.call(file)
+    symbol_adder.call(parsed_code)
+
     translated_code = translator.call(parsed_code)
 
     name_of_output_file = generate_name_of_output_file(file)
