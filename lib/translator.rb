@@ -1,7 +1,7 @@
 class Translator
 
   def call(code)
-    code.map { |line| convert_to_binary(line) }
+    code.map { |line| convert_to_binary(line) }.compact
   end
 
   private
@@ -9,6 +9,8 @@ class Translator
   def convert_to_binary(line)
     if line[0] == "@"
       convert_numeric_symbol_to_binary(line)
+    elsif line[0] == "("
+      nil
     else
       convert_c_instruction_to_binary(line)
     end

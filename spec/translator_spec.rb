@@ -10,6 +10,12 @@ RSpec.describe Translator do
       expect(translator.call(code)).to eq(["0000000000000101"])
     end
 
+    it "ingores pseudo-commands" do
+      code = ["(INFINITE_LOOP)"]
+
+      expect(translator.call(code)).to eq([])
+    end
+
     context "c instructions" do
       it "converts C instructions with a destination" do
         code = ["D=A"]
