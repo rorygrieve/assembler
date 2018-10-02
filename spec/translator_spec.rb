@@ -1,7 +1,8 @@
 require "translator"
 
 RSpec.describe Translator do
-  subject(:translator) { Translator.new }
+  subject(:translator) { Translator.new(symbol_table: symbol_table) }
+  let(:symbol_table) { double(:symbol_table, all_symbols: { "INFINITE_LOOP" => "29" }) }
 
   describe "#call" do
     it "converts numeric symbols" do
@@ -14,6 +15,12 @@ RSpec.describe Translator do
       code = ["(INFINITE_LOOP)"]
 
       expect(translator.call(code)).to eq([])
+    end
+
+    it "converts symbol from symbol table" do
+      code = ["@INFINITE_LOOP"]
+
+      expect(translator.call(code)).to eq(["0000000000011101"])
     end
 
     context "c instructions" do

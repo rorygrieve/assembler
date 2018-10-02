@@ -2,9 +2,10 @@ require "main"
 require "parser"
 require "translator"
 require "symbol_adder"
+require "symbol_table"
 
 RSpec.describe "Translate files" do
-  let(:main) { Main.new(parser: Parser.new, translator: Translator.new, symbol_adder: SymbolAdder.new) }
+  let(:main) { Main.new(parser: Parser.new, translator: Translator.new(symbol_table: SymbolTable.new), symbol_adder: SymbolAdder.new) }
 
   context "a file without symbols is loaded"  do
     context "without jump commands" do

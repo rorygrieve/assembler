@@ -1,4 +1,13 @@
+require_relative "./symbol_table"
+
 class Translator
+
+  def initialize(symbol_table:)
+    @symbol_table = symbol_table
+  end
+
+  attr_reader :symbol_table
+  private :symbol_table
 
   def call(code)
     code.map { |line| convert_to_binary(line) }.compact
@@ -8,7 +17,7 @@ class Translator
 
   def convert_to_binary(line)
     if line[0] == "@"
-      convert_numeric_symbol_to_binary(line)
+      convert_symbol_to_binary(line)
     elsif line[0] == "("
       nil
     else
@@ -16,8 +25,24 @@ class Translator
     end
   end
 
-  def convert_numeric_symbol_to_binary(line)
-    line[1..-1].to_i.to_s(2).rjust(16, "0")
+  def convert_symbol_to_binary(line)
+    symbol = line[1..-1]
+
+    if symbol.to_i.to_s == symbol
+      format_number(symbol)
+    else
+      get_binary_from_symbol_table(symbol)
+    end
+  end
+
+  def get_binary_from_symbol_table(symbol)
+    number = symbol_table.all_symbols[symbol]
+
+    format_number(number)
+  end
+
+  def format_number(number)
+    number.to_i.to_s(2).rjust(16, "0")
   end
 
   def convert_c_instruction_to_binary(line)
