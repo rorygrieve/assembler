@@ -1,4 +1,5 @@
 require "translator"
+require "symbol_table"
 
 RSpec.describe Translator do
   subject(:translator) { Translator.new(symbol_table: symbol_table) }
@@ -21,6 +22,20 @@ RSpec.describe Translator do
       code = ["@INFINITE_LOOP"]
 
       expect(translator.call(code)).to eq(["0000000000011101"])
+    end
+
+    context "new symbol" do
+      let(:translator) { Translator.new(symbol_table: SymbolTable.new) }
+
+      it "adds new symbols to the symbol table starting at 16" do
+        code = ["@sum"]
+
+        expect(translator.call(code)).to eq(["0000000000010000"])
+      end
+
+      after do
+        ADDED_SYMBOLS = {}
+      end
     end
 
     context "c instructions" do

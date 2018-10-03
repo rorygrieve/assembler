@@ -1,13 +1,15 @@
 require_relative "./symbol_table"
+STARTING_POINT_FOR_AVAILABLE_RAM_ADDRESSES = 16
 
 class Translator
 
   def initialize(symbol_table:)
     @symbol_table = symbol_table
+    @next_available_ram_address = STARTING_POINT_FOR_AVAILABLE_RAM_ADDRESSES
   end
 
-  attr_reader :symbol_table
-  private :symbol_table
+  attr_reader :symbol_table, :next_available_ram_address
+  private :symbol_table, :next_available_ram_address
 
   def call(code)
     code.map { |line| convert_to_binary(line) }.compact
@@ -30,8 +32,11 @@ class Translator
 
     if symbol.to_i.to_s == symbol
       format_number(symbol)
-    else
+    elsif symbol_table.all_symbols[symbol] != nil
       get_binary_from_symbol_table(symbol)
+    else
+      add_to_added_symbols(symbol)
+      convert_symbol_to_binary(line)
     end
   end
 
@@ -39,6 +44,11 @@ class Translator
     number = symbol_table.all_symbols[symbol]
 
     format_number(number)
+  end
+
+  def add_to_added_symbols(symbol)
+    ADDED_SYMBOLS.merge!( {symbol => next_available_ram_address } )
+    @next_available_ram_address += 1
   end
 
   def format_number(number)
